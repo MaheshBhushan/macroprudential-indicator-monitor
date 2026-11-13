@@ -1,0 +1,38 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: mim
+          POSTGRES_PASSWORD: mim
+          POSTGRES_DB: mim
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U mim -d mim"
+          --health-interval 2s --health-timeout 3s --health-retries 30
+    env:
+      MIM_DATABASE_URL: postgresql://mim:mim@localhost:5432/mim
+      MIM_REQUIRE_DB: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --all-extras --locked
+      - run: uv run ruff check .
+      - run: uv run pytest -v
+      - name: End-to-end CLI on fixtures
+        run: |
+          uv run mim init-db
+          uv run mim ingest --fixtures tests/fixtures/vintage1 --as-of 2026-11-11
+          uv run mim ingest --fixtures tests/fixtures/vintage2 --as-of 2026-11-11
+          uv run mim report
+          uv run mim tableau --out-dir /tmp/tableau

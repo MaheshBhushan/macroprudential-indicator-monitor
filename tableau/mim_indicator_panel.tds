@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<datasource formatted-name='mim_indicator_panel' inline='true' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <connection class='federated'>
+    <named-connections>
+      <named-connection caption="localhost" name='postgres.mim'>
+        <connection authentication='username-password' class='postgres' dbname="mim" odbc-native-protocol='' one-time-sql='' port="55473" server="localhost" sslmode='' username="mim" />
+      </named-connection>
+    </named-connections>
+    <relation connection='postgres.mim' name='v_indicator_panel' table='[mim].[v_indicator_panel]' type='table' />
+  </connection>
+  <aliases enabled='yes' />
+  <column datatype='string' name='[series_id]' role='dimension' type='nominal' />
+  <column datatype='string' name='[source]' role='dimension' type='nominal' />
+  <column datatype='string' name='[country]' role='dimension' type='nominal' />
+  <column datatype='string' name='[indicator]' role='dimension' type='nominal' />
+  <column datatype='string' name='[unit]' role='dimension' type='nominal' />
+  <column datatype='string' name='[expected_freq]' role='dimension' type='nominal' />
+  <column datatype='date' name='[period_start]' role='dimension' type='ordinal' />
+  <column datatype='string' name='[period]' role='dimension' type='nominal' />
+  <column datatype='real' name='[value]' role='measure' type='quantitative' />
+  <column datatype='string' name='[obs_status]' role='dimension' type='nominal' />
+  <column datatype='boolean' name='[is_missing_period]' role='dimension' type='nominal' />
+  <column datatype='boolean' name='[is_missing_value]' role='dimension' type='nominal' />
+  <column datatype='boolean' name='[is_revised_last_run]' role='dimension' type='nominal' />
+  <column datatype='boolean' name='[series_stale]' role='dimension' type='nominal' />
+  <column datatype='boolean' name='[frequency_issue]' role='dimension' type='nominal' />
+</datasource>
